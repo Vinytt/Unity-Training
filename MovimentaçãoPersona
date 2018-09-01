@@ -1,0 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MovimentaçãoPersona : MonoBehaviour {
+    public float moveSpeed = 20.0f; //velocidade do objeto
+    private Vector3 pos;
+    private bool obstáculofrente;
+    private bool obstáculoatrás;
+    private bool obstáculodireita;
+    private bool obstáculoesquerda;
+    private bool nochao;
+    private float jump = 10.0f; //intensidade do pulo
+    public float Rigidbody3D;
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        //pos = transform.position; //recebendo os três eixos//
+        //pos.x += moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
+        //pos.z += moveSpeed * Input.GetAxis("Vertical") * Time.deltaTime;
+        //transform.position = pos;
+
+        //reconhecimento de obstáculos
+        obstáculofrente = Physics.Raycast(transform.position, transform.forward, 0.5f);
+        obstáculoatrás = Physics.Raycast(transform.position, -transform.forward, 0.5f);
+        obstáculodireita = Physics.Raycast(transform.position, transform.right, 0.5f);
+        obstáculoesquerda = Physics.Raycast(transform.position, -transform.right, 0.5f);
+        //reconhce se está no chão
+        nochao = Physics.Raycast(transform.position, -transform.up, 1f);
+
+        if (Input.GetButton("Left")) //movimentação à esuqerda
+        {
+            if (!obstáculoesquerda)
+            {
+                transform.position += new Vector3(Input.GetAxis("Left") * moveSpeed * Time.deltaTime, 0, 0);
+               // GetComponent<Rigidbody>().velocity = new Vector3(Input.GetAxis("Left") * moveSpeed, 0, 0);
+            }  
+        }
+        if (Input.GetButton("Right")) //movimentação à direita
+        {
+            if (!obstáculodireita)
+            {
+                transform.position += new Vector3(Input.GetAxis("Right") * moveSpeed * Time.deltaTime, 0, 0);
+                //GetComponent<Rigidbody>().velocity = new Vector3(Input.GetAxis("Right") * moveSpeed, 0, 0);
+            } 
+        }
+        if (Input.GetButton("Up")) //movimentação à frente
+        {
+            if (!obstáculofrente)
+            {
+                 transform.position += new Vector3(0, 0, Input.GetAxis("Up") * moveSpeed * Time.deltaTime);
+                //GetComponent<Rigidbody>().velocity = new Vector3(0, 0, Input.GetAxis("Up") * moveSpeed);
+            }
+        }
+        if (Input.GetButton("Down")) //movimentação para trás
+        {
+            if (!obstáculoatrás)
+            {
+                transform.position += new Vector3(0, 0, Input.GetAxis("Down") * moveSpeed * Time.deltaTime);
+                //GetComponent<Rigidbody>().velocity = new Vector3(0, 0, Input.GetAxis("Down") * moveSpeed);
+            }
+         }
+
+
+        if (!Input.GetButton("Left") && !Input.GetButton("Right")) //suaviza movimentação no eixo x
+        {
+            if (!obstáculoesquerda && !obstáculodireita)
+            {
+                transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
+            }
+        }
+        if (!Input.GetButton("Up") && !Input.GetButton("Down")) //suaviza movimentação no eizo z
+        {
+            if (!obstáculofrente && !obstáculoatrás)
+            {
+                transform.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
+            }
+        }
+
+
+        if (Input.GetButton("Jump")) //pulo
+        {
+            if (nochao == true)
+            {
+                GetComponent<Rigidbody>().velocity = new Vector3(0, Input.GetAxis("Jump")*jump, 0);
+            }
+        }
+
+
+        if (transform.position.y <= -30)
+        {
+            Debug.Log("GAME OVER");
+            FindObjectOfType<GameManager1>().EndGame();
+        }
+	}
+}
