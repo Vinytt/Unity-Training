@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class MainMenu : MonoBehaviour {
+
+	public void PlayGame() //esse script vai para a próxima cena no index
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    //public void PlayGame() //esse script carrega a cena "movimento" diretamente
+    //{
+      //  SceneManager.LoadScene("movimento");
+    //}
+
+    public void ExitGame() //script para sair do jogo
+    {
+        Debug.Log("quitou pq fi");
+        Application.Quit();
+    }
+}
