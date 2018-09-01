@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class PauseMenu : MonoBehaviour {
+
+    public static bool gameIsPaused = false;
+
+    public GameObject PauseMenuUI; //adiciona um objeto público
+
+	// Update is called once per frame
+	void Update () {
+		if (Input.GetKeyDown(KeyCode.Escape)) //ativa quando pressiona ESC
+        {
+            if (gameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+	}
+
+    public void Resume () //função que "despausa" o jogo; deve ser pública para ser coloca no botão "RESUME" tambémpublic 
+    {
+        PauseMenuUI.SetActive(false); //desativa a UI do menu (canvas)
+        Time.timeScale = 1f; //faz a passagem de tempo tornar-se normal
+        gameIsPaused = false; 
+    }
+
+    void Pause () //função que pausa o jogo
+    {
+        PauseMenuUI.SetActive(true); //ativa a UI do menu (canvas)
+        Time.timeScale = 0f; //para o tempo do jogo
+        gameIsPaused = true;
+    }
+
+
+    public void loadMenu()
+    {
+        Time.timeScale = 1f; //volta o tempo ao normal
+        SceneManager.LoadScene("Start Menu"); //dá load no start menu
+
+    }
+
+    public void QuitGame ()
+    {
+        Application.Quit(); //sai do jogo
+    }
+}
