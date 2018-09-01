@@ -1,0 +1,34 @@
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameManager1 : MonoBehaviour
+{
+    bool gameHasEnded = false;
+    public GameObject GameOverCanvas;
+
+   public void EndGame()
+    {
+        if (gameHasEnded == false)
+        {
+            gameHasEnded = true;
+            Time.timeScale = 0f;
+            GameOverCanvas.SetActive(true); //ativa canvas do game over
+            //fazer um canvas pro game over e colocar um botao restart e quit
+
+        }
+
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        gameHasEnded = false;
+        SceneManager.LoadScene(1);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+}
