@@ -1,2 +1,2 @@
 # Unity-Training
-Trying to learn how to use Unity and C#
+Tentando aprender a usar o Unity e programar em C#
